@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/validator.css"
+    >
+    <script defer src="assets/js/validator.js"></script>
+    <script defer src="assets/js/main.js"></script>
+
+    <title>Validator</title>
+</head>
+<body>
+    <div class="example-panel">
+        <div class="w-50 p-3">
+            <h1>Form 1</h1>
+            <form id="form-1" action="" method="POST">
+                <input type="text" name="login" class="form-control" data-label="Login">
+                <input type="text" name="email" class="form-control" data-label="Email">
+                <input type="password" name="password" class="form-control" data-label="Password">
+                <input type="password" name="password_repeat" class="form-control" data-label="Password Repeat">
+                <select name="select" class="form-control">
+                    <option value="0" selected>???</option>
+                </select>
+                <textarea class="form-control" cols="30" rows="10"></textarea>
+                <button class="btn btn-primary mt-3">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="example-panel mt-3">
+        <div class="w-50 p-3">
+            <h1>Form 2</h1>
+            <form id="form-2" action="" method="POST">
+                <input type="text" name="email" class="form-control" data-label="Почта">
+                <input type="text" name="password" class="form-control" data-label="Пароль">
+                <button class="btn btn-primary mt-3">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

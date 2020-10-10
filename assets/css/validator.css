@@ -1,0 +1,27 @@
+:root{
+    --error-color: rgb(245, 62, 62);
+}
+
+.v-group{
+    margin-bottom: 10px;
+}
+
+.v-group label{
+    margin-bottom: 2px;
+}
+
+.v-group input.v-invalid,
+.v-group select.v-invalid,
+.v-group textarea.v-invalid{
+    border-color: var(--error-color);
+}
+
+.v-group input.v-invalid + .v-error,
+.v-group select.v-invalid + .v-error,
+.v-group textarea.v-invalid + .v-error{
+    display: block;
+}
+.v-error{
+    display: none;
+    color: var(--error-color);
+}
