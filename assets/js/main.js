@@ -16,11 +16,11 @@ const rules = {
             password: ['required',]
         },
         messages:{
-            required: 'Поле обязательное',
+            required: 'Поле :field обязательное',
             email: 'Неверный формат почты'
         }
     }
 }
 
-const form_1 = new Validator('#form-1', rules['form_1'])
-const form_2 = new Validator('#form-2', rules['form_2'])
+const form_1 = new Validator(document.querySelector('#form-1'), rules['form_1'])
+const form_2 = new Validator(document.querySelector('#form-2'), rules['form_2'])

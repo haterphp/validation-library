@@ -6,8 +6,9 @@ const getProperies = (obj, attr) => {
 }
 
 class ValidatorField{
-    constructor(element){
+    constructor(element, options){
         this.element = element;
+        this.options = options;
         this.template = null;
         this.renderTemplate();
     }
@@ -19,7 +20,8 @@ class ValidatorField{
         if(label)
             this.template.append(this.createLabel(label))
         this.template.append(this.element);
-        this.template.append(this.createErrorContainer())
+        if(this.options.showErrors)
+            this.template.append(this.createErrorContainer())
     }
 
     createLabel(value){
@@ -35,12 +37,16 @@ class ValidatorField{
     }
 
     setError(error){
-        this.template.querySelector('.v-error').innerHTML = error;
+        if(this.options.showErrors){
+            this.template.querySelector('.v-error').innerHTML = error;
+        }
         this.element.classList.add('v-invalid');
     }
 
     removeError(){
-        this.template.querySelector('.v-error').innerHTML = '';
+        if(this.options.showErrors){
+            this.template.querySelector('.v-error').innerHTML = '';
+        }
         this.element.classList.remove('v-invalid');
     }
 
@@ -52,9 +58,9 @@ class ValidatorErrorsHandler{
         this.data = [];
         this.messages = {
             'required': 'This field is required',
-            'prompt': `This field must be equal field {value}`,
+            'prompt': `This field must be equal field :field`,
             'email': 'Invalid email format',
-            'equal': 'This field must be equal {value}'
+            'equal': 'This field must be equal :field'
         }
     }
 
@@ -83,8 +89,8 @@ class ValidatorErrorsHandler{
                     if(['prompt', 'equal'].includes(rule[0]))
                         showedErrorFieldName = rule[1]
 
-                    this.errors[field] = getProperies(scheme.messages || {}, rule[0]) || this.errorFormat(this.messages[rule[0]], showedErrorFieldName)
-                    //this.errors[field] = this.errorFormat(getProperies(scheme.messages || {}, rule[0]) || this.messages[rule[0]], showedErrorFieldName)
+                    // this.errors[field] = getProperies(scheme.messages || {}, rule[0]) || this.errorFormat(this.messages[rule[0]], showedErrorFieldName)
+                    this.errors[field] = this.errorFormat(getProperies(scheme.messages || {}, rule[0]) || this.messages[rule[0]], showedErrorFieldName)
                 }
 
             });
@@ -92,7 +98,7 @@ class ValidatorErrorsHandler{
     }   
 
     errorFormat(error, field){
-        return error.replace(/{value}/gi, field)
+        return error.replace(/:field/gi, field)
     }
 
     required(rule, field){
@@ -116,7 +122,8 @@ class ValidatorErrorsHandler{
 
 class Validator{
     constructor(form, scheme){
-        this.form = qs(form);
+        this.form = form;
+        this.options = scheme.options || [];
         this.scheme = scheme;
         this.fields = {};
         this.fieldsRender();
@@ -135,8 +142,11 @@ class Validator{
 
         fields.forEach(item => {
             let name = item.getAttribute('name');
+            const options = {
+                showErrors: (getProperies(this.options, 'showErrors') != null) ? getProperies(this.options, 'showErrors') : true
+            }
             if(name){
-                this.fields[name] = new ValidatorField(item);
+                this.fields[name] = new ValidatorField(item, options);
                 $container.append(this.fields[name].template)
             }
         })
